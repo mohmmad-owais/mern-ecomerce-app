@@ -6,23 +6,24 @@ const authRoute = require("./routes/auth");
 
 const app = express();
 
-dotenv.config();
 
-mongoose
-  .connect(process.env.MONGO_URL)
-  .then(() => console.log("DBconnection sucessfull"))
-  .catch((err) => {
-    console.log(err);
+  dotenv.config();
+
+  mongoose
+    .connect(process.env.MONGO_URL)
+    .then(() => console.log("DBconnection sucessfull"))
+    .catch((err) => {
+      console.log(err);
+    });
+
+  app.get("/api/test", () => {
+    console.log("test is sucessfull");
   });
 
-// app.get("/api/test", () => {
-//   console.log("test is sucessfull");
-// });
+  app.use(express.json());
+  app.use("/api/auth", authRoute);
+  app.use("/api/users", userRoute);
 
-app.use(express.json());
-app.use("/api/auth", authRoute);
-app.use("/api/users", userRoute);
-
-app.listen(5000, () => {
-  console.log("Backend is running");
-});
+  app.listen(5000, () => {
+    console.log("Backend is running");
+  });
